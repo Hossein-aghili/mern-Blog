@@ -17,3 +17,18 @@ export const getAll = catchAsync(async (req, res, next) => {
         message: 'users successfully'
     })
 })
+export const getOne = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    if (req.role !== 'admin' && req.userId !== id) {
+        return next(new HandleERROR('you dont have permission'), 401)
+    }
+    const user = await User.findById(id)
+    if (!user) {
+        return next(new HandleERROR('user not fund'), 404)
+    }
+    return res.status(200).json({
+        success: true,
+        data: user,
+        message: 'user successfully'
+    })
+})
