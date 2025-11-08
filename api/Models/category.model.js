@@ -9,7 +9,7 @@ const categorySchema = new mongoose.Schema({
         type: [String],
         default: []
     }
-})
+},{timestamps:true})
 
 const Category = mongoose.model('Category', categorySchema)
 export default Category
