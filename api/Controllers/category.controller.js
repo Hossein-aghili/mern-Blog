@@ -53,3 +53,12 @@ const update = catchAsync(async (req, res, next) => {
         message: 'category update successfully'
     })
 })
+export const remove = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const category = await Category.findByIdAndDelete(id)
+    return res.status(200).json({
+        success: true,
+        data: category,
+        message: 'category update successfully'
+    })
+})
