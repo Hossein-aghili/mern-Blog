@@ -1,0 +1,7 @@
+import express from 'express'
+import { create, getAll, getOne, remove, update } from '../Controllers/category.controller.js'
+import { isAdmin } from '../Middlewares/isAdmin.js'
+const categoryRouter = express.Router()
+categoryRouter.route('/').get(getAll).post( create)
+categoryRouter.route('/:id').get(getOne).patch(isAdmin, update).delete(isAdmin, remove)
+export default categoryRouter
