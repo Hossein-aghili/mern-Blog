@@ -50,3 +50,11 @@ export const update = catchAsync(async (req, res, next) => {
         data: post
     })
 })
+export const remove = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const post = await Post.findByIdAndDelete(id)
+    return res.status(200).json({
+        success: true,
+        data: post
+    })
+})
