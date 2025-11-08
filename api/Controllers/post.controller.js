@@ -1,8 +1,8 @@
-import ApiFeatures, { catchAsync, HandleERROR } from "vanta-api";
+import ApiFeatures, { HandleERROR } from "vanta-api";
+import { catchAsync } from 'vanta-api'
 import Post from "../Models/post.model.js";
-import { update } from "./user.controller.js";
 
-export const create = catchAsync(async (re, res, next) => {
+export const create = catchAsync(async (req, res, next) => {
     const post = await Post.create(req.body)
     return res.status(200).json({
         success: true,
@@ -29,7 +29,7 @@ export const getOne = catchAsync(async (req, res, next) => {
     const { id } = req.params
     const post = await Post.findById(id)
     if (!post) {
-        return next(new HandleERROR('post not found'), 404)
+        return next(new HandleERROR('post not found', 404));
     }
     return res.status(200).json({
         success: true,
@@ -43,7 +43,7 @@ export const update = catchAsync(async (req, res, next) => {
         runValidators: true
     })
     if (!post) {
-        return next(new HandleERROR('post not found'), 404)
+        return next(new HandleERROR('post not found', 404));
     }
     return res.status(200).json({
         success: true,
