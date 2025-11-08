@@ -30,10 +30,26 @@ export const getOne = catchAsync(async (req, res, next) => {
     const { id } = req.params
     const category = await Category.findById(id)
     if (!category) {
-        return next(new HandleERROR('category not found'))
+        return next(new HandleERROR('category not found'), 404)
     }
     return res.status(200).json({
         success: true,
         data: category,
+    })
+})
+
+const update = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const category = await Category.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    if (!category) {
+        return next(HandleERROR('category not found'), 404)
+    }
+    return res.status(200).json({
+        success: true,
+        data: category,
+        message: 'category update successfully'
     })
 })
