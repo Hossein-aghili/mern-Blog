@@ -18,7 +18,7 @@ export const getAll = catchAsync(async (req, res, next) => {
         .populate()
         .paginate()
         .limitFields()
-    const categories = features.execute()
+    const categories = await features.execute()
     const count = await Category.countDocuments(features.queryFilter)
     return res.status(200).json({
         success: true,
@@ -38,7 +38,7 @@ export const getOne = catchAsync(async (req, res, next) => {
     })
 })
 
-const update = catchAsync(async (req, res, next) => {
+export const update = catchAsync(async (req, res, next) => {
     const { id } = req.params
     const category = await Category.findByIdAndUpdate(id, req.body, {
         new: true,
