@@ -26,3 +26,14 @@ export const getAll = catchAsync(async (req, res, next) => {
         count
     })
 })
+export const getOne = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const category = await Category.findById(id)
+    if (!category) {
+        return next(new HandleERROR('category not found'))
+    }
+    return res.status(200).json({
+        success: true,
+        data: category,
+    })
+})
