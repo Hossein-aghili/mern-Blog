@@ -10,3 +10,19 @@ export const create = catchAsync(async (req, res, next) => {
         message: 'create successfully'
     })
 })
+
+export const getAll = catchAsync(async (req, res, next) => {
+    const features = new ApiFeatures(Category, req.query, req.role)
+        .filter()
+        .sort()
+        .populate()
+        .paginate()
+        .limitFields()
+    const categories = features.execute()
+    const count = await Category.countDocuments(features.queryFilter)
+    return res.status(200).json({
+        success: true,
+        data: categories,
+        count
+    })
+})
