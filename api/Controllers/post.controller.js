@@ -1,4 +1,4 @@
-import ApiFeatures, { catchAsync } from "vanta-api";
+import ApiFeatures, { catchAsync, HandleERROR } from "vanta-api";
 import Post from "../Models/post.model.js";
 
 export const create = catchAsync(async (re, res, next) => {
@@ -22,5 +22,16 @@ export const getAll = catchAsync(async(req,res,next)=>{
         success:true,
         data:posts,
         count
+    })
+})
+export const getOne = catchAsync(async(req,res,next)=>{
+    const {id} =req.params
+    const post = await Post.findById(id)
+    if(!post){
+        return next(new HandleERROR('post not found'),404)
+    }
+    return res.status(200).json({
+        success:true,
+        data:post
     })
 })
